@@ -10,60 +10,52 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.yasic.wifirecorder.Adapter.WifiRecordDailyAdapter;
-import com.yasic.wifirecorder.Presenter.BarChartPresenter;
+import com.yasic.wifirecorder.Presenter.WifiRecordeListPresenter;
 import com.yasic.wifirecorder.R;
 
 /**
  * Created by Yasic on 2016/4/19.
  */
-public class BarChartView implements BaseViewInterface<Activity, BarChartPresenter> {
+public class WifiRecordeListView implements BaseViewInterface<Activity, WifiRecordeListPresenter> {
     private View view;
-    private BarChartPresenter barChartPresenter;
-    private BarChart bcDailyChart;
+    private WifiRecordeListPresenter wifiRecordeListPresenter;
     private TextView tvDataDate;
     private ImageButton ibBeforeDay, ibAfterDay;
-    private TextView tvWifiConnectionTime,tvMobileDataTime;
-
+    private RecyclerView rvWifiRecord;
     @Override
     public void init(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.fragment_barchart, container, false);
-        bcDailyChart = (BarChart)view.findViewById(R.id.bc_DailyChart);
+        view = inflater.inflate(R.layout.fragment_wifirecordlist, container, false);
         tvDataDate = (TextView)view.findViewById(R.id.tv_DataDate);
         ibBeforeDay = (ImageButton)view.findViewById(R.id.ib_BeforeDay);
         ibAfterDay = (ImageButton)view.findViewById(R.id.ib_AfterDay);
-        tvWifiConnectionTime = (TextView)view.findViewById(R.id.tv_WifiConnectionTime);
-        tvMobileDataTime = (TextView)view.findViewById(R.id.tv_MobileDataTime);
+        rvWifiRecord = (RecyclerView) view.findViewById(R.id.rv_WifiRecord);
         setDateChangeListener();
+    }
+
+    public void initRvWifiRecordDaily(WifiRecordDailyAdapter wifiRecordDailyAdapter){
+        rvWifiRecord.setItemAnimator(new DefaultItemAnimator());
+        rvWifiRecord.setLayoutManager(new LinearLayoutManager(wifiRecordeListPresenter.getContext()));
+        rvWifiRecord.setAdapter(wifiRecordDailyAdapter);
     }
 
     private void setDateChangeListener(){
         ibBeforeDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                barChartPresenter.changeTargetDate(false);
+                wifiRecordeListPresenter.changeTargetDate(false);
             }
         });
         ibAfterDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                barChartPresenter.changeTargetDate(true);
+                wifiRecordeListPresenter.changeTargetDate(true);
             }
         });
     }
 
     public void setDataDate(String date){
         tvDataDate.setText(date);
-    }
-
-    public void setWifiAndMobileDataTime(String wifiTotalTime, String mobieDataTotalTime){
-        tvWifiConnectionTime.setText(wifiTotalTime);
-        tvMobileDataTime.setText(mobieDataTotalTime);
-    }
-
-    public BarChart getBcDailyChart(){
-        return bcDailyChart;
     }
 
     @Override
@@ -77,8 +69,7 @@ public class BarChartView implements BaseViewInterface<Activity, BarChartPresent
     }
 
     @Override
-    public void setPresenter(BarChartPresenter barChartPresenter) {
-        this.barChartPresenter =barChartPresenter;
+    public void setPresenter(WifiRecordeListPresenter wifiRecordeListPresenter) {
+        this.wifiRecordeListPresenter = wifiRecordeListPresenter;
     }
-
 }

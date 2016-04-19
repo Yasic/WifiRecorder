@@ -1,5 +1,6 @@
 package com.yasic.wifirecorder.Presenter;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -8,8 +9,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.yasic.wifirecorder.Adapter.WifiRecordDailyAdapter;
 import com.yasic.wifirecorder.JavaBean.MobileDataBean;
 import com.yasic.wifirecorder.JavaBean.WifiConnectionBean;
+import com.yasic.wifirecorder.JavaBean.WifiRecordDaily;
 import com.yasic.wifirecorder.Model.WifiModel;
 import com.yasic.wifirecorder.R;
 import com.yasic.wifirecorder.Util.TimeUtils;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmResults;
@@ -49,7 +53,6 @@ public class BarChartPresenter extends BasePresenterFragment<BarChartView> {
         targetDateValue = new Date();
         String[] temp = targetDate.split(" ");
         BVIView.setDataDate(temp[0] + "-" + temp[1] + "-" + temp[2]);
-
         Observable.timer(0, 10, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
@@ -167,6 +170,7 @@ public class BarChartPresenter extends BasePresenterFragment<BarChartView> {
                             int startHour, endHour;
                             int startMinute, endMinute;
                             for (MobileDataBean mobileDataBean : mobileDataBeen) {
+
                                 startTime = mobileDataBean.getMobileDataBeginTime();
                                 endTime = mobileDataBean.getMobileDataEndTime();
                                 startTemp = startTime.split(" ");

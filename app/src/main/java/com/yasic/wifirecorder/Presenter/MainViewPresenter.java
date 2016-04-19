@@ -2,6 +2,8 @@ package com.yasic.wifirecorder.Presenter;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.yasic.wifirecorder.Model.WifiModel;
@@ -33,11 +35,13 @@ public class MainViewPresenter extends BasePresenterActivity<MainView> {
         startService(new Intent(MainViewPresenter.this, WifiListener.class));
         BVIView.setPresenter(this);
         List<String> tabTitleList = new ArrayList<>();
-        tabTitleList.add("Daily");
-        tabTitleList.add("Statistical");
+        tabTitleList.add("Day");
+        tabTitleList.add("Wifi List");
+        tabTitleList.add("Month");
         tabTitleList.add("More");
         List<BasePresenterFragment> basePresenterFragmentList = new ArrayList<>();
         basePresenterFragmentList.add(new BarChartPresenter());
+        basePresenterFragmentList.add(new WifiRecordeListPresenter());
         basePresenterFragmentList.add(new PieChartPresenter());
         basePresenterFragmentList.add(new MoreViewPresenter());
         BVIView.setViewPagerAndTablayout(tabTitleList, basePresenterFragmentList);
